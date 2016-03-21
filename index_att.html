@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>首页-关注</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/comm.css" />
+    <script src="js/iscroll.js"></script>
+    <script src="js/comm.js"></script>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/rem.js"></script>
+</head>
+<body>
+	<div class="headerbox">
+		<header class="index">
+		<div>
+			<a id="hot" href="javascript:;">热点</a>
+			<a id="attr" class="indexHeaderAct" href="javascript:;">关注</a>
+		</div>
+		</header>
+		<div style="width:100%;height: 5px;background: #f1f1f1"></div>
+	</div>
+	<!-- main -->
+	<div id="wrapper">
+		<div class="attMain">
+			<div>
+				<div class="message">
+					<img class="headerImg" src="images/headerImg.png" />
+					<div class="headerTxt">
+						<h2>我叫小萌</h2>
+						<p>我是小萌我怕誰！哈哈哈哈！</p>
+					</div>
+					<div class="good">
+						<span>4325</span>
+						<a href="javacsript:;"></a>
+					</div>
+				</div>
+				<div class="messageTxt">
+					<img src="images/index5.jpg" alt="">
+					<p>小丸子啊小丸子！</p>
+				</div>
+			</div>
+			<div>
+				<div class="message">
+					<img class="headerImg" src="images/headerImg2.png" />
+					<div class="headerTxt">
+						<h2>Lily</h2>
+						<p>Hello~ my name is Lily!</p>
+					</div>
+					<div class="good">
+						<span>4325</span>
+						<a href="javacsript:;"></a>
+					</div>
+				</div>
+				<div class="messageTxt">
+					<img src="images/index5.jpg" alt="">
+					<p>小丸子啊小丸子！</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer -->
+	<footer>
+		<div class="menu">
+			<a href="javascript:;" class="index menuActive">
+				<img src="images/index2.png" alt="">
+				<span>首页</span>
+			</a>
+			<a href="javascript:;" class="find">
+				<img src="images/search1.png" alt="">
+				<span>发现</span>
+			</a>
+			<a href="javascript:;" class="photo">
+				<div>
+					<img src="images/photo1.png" alt="">
+				</div>
+			</a>
+			<a href="javascript:;" class="my">
+				<img src="images/my1.png" alt="">
+				<span>我的</span>
+			</a>
+			<a href="javascript:;" class="exit">
+				<img src="images/exit.png" alt="">
+				<span>退出</span>
+			</a>
+		</div>
+		
+	</footer>
+</body>
+<script>
+	var myscroll;  
+  	var num = 0;
+
+  	// var str, //$('.indexBody')的transform属性值
+   //      transformH,//滚动高度
+   //      oheight,//$('.indexBody')的高度
+   //      clint_h = $('#wrapper').height(); //滚动窗口的可视高度
+
+
+    function loaded(){  
+  
+	    setTimeout(function(){  
+	  
+	        myscroll=new iScroll("wrapper"
+	        	// ,{
+	        	// onScrollEnd:function(){
+		        //     str = $('.attMain').css('transform');
+		        //     console.log(str)
+		        //     transformH = str.match(/\d+/g)[1];
+		        //     oheight = $('.attMain').height();
+		        //     console.log(transformH+ ' '+oheight)
+		        //     if(transformH + clint_h >= oheight-100){
+		                
+		        //         num += 10;
+		        //         into(num,category);
+		        //     }
+	        	// }}
+	        );  
+	  
+	    },100 );  
+  
+    }  
+    window.addEventListener("load",loaded,false); 
+
+    // into(Num,category);
+    // function into(Num,category){
+    // 	if((Num > dataLength) && Num > 0){
+    // 		$('.nomore').css('display','block');
+    //         myscroll1.refresh();
+    //         myscroll2.refresh();
+    // 		myscroll3.refresh();
+    // 		return "empty";
+    // 	}
+        
+    //     $.ajax({
+    //         url: 'http://localhost:8080/Proxy/FootBall/tweet/json/query/hotspot.do',
+    //         data: {'category': category},
+    //         async:false,
+    //         success:function(d){
+    //             dataStr = d;
+		  //       var data = JSON.parse(dataStr);
+		  //       var html = '';
+		  //       var maxNum = Num + 10;
+		  //       dataLength = data.data.tweetlist.length;
+		  //       if(maxNum > dataLength){
+		  //       	maxNum = dataLength;
+		  //       }
+		  //       for(var i = Num; i < maxNum; i++){
+		  //           html = '<div><img src="http://101.200.173.217:8080/FootBall'+data.data.tweetlist[i].defaultFilePath + data.data.tweetlist[i].defaultFileName +'" alt=""><p>'+ data.data.tweetlist[i].content + '</p></div>';
+		  //           oLi[getCpr()].innerHTML += html;
+		  //           myscroll1.refresh();
+		  //           myscroll2.refresh();
+		  //           myscroll3.refresh();
+		  //           // console.lg(data.data.tweetlist[i])
+		  //       }
+	        
+	   //      }
+   	//  	});
+
+    // }
+
+
+
+
+
+
+
+</script>
+</html>

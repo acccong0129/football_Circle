@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/comm.css" />
+    <link rel="stylesheet" href="css/swiper.min.css" />
+    <script src="js/iscroll.js"></script>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/swiper.jquery.min.js"></script>
+    <script src="js/comm.js"></script>
+</head>
+<body>
+	<div>
+		<header>个人中心</header>
+		<div class="search">
+			<input type="text" placeholder="请输入昵称">
+			<button>搜索</button>
+		</div>
+		<div class="box"></div>
+		<div class="message user_message">
+			<img class="headerImg" src="images/headerImg.png" />
+			<div class="headerTxt">
+				<h2>我叫小萌</h2>
+				<p>我是小萌我怕誰！哈哈哈哈！</p>
+			</div>
+		</div>
+	</div>
+	<div class="main swiper-container hot_mainbox user_hot_mainbox">
+	<!-- 如果需要分页器 -->
+        <div class="swiper-pagination swiperPage user_swiperPage swiperPClearMargin"></div>
+		<div class="swiper-wrapper swiperL_RBox">
+			
+				<div class="swiper-slide hot_mainActive">
+					<div id="wrapper" class="userWrapper">
+						<div class="detail">
+							<div class="picbox">
+								<img src="images/img1.png" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="swiper-slide hot_mainActive">
+					<div id="wrapper" class="userWrapper">
+							<!-- <div class="detail">
+								<div class="picbox">
+									<img src="images/img1.png" alt="">
+								</div>
+							</div>
+						 -->
+					</div>
+				</div>
+				<div class="swiper-slide hot_mainActive">
+					<div id="wrapper" class="userWrapper">
+							<!-- <div class="detail">
+								<div class="picbox">
+									<img src="images/img1.png" alt="">
+								</div>
+							</div> -->
+					</div>
+				</div>	
+		</div>
+	</div>
+	<!-- 脚部 -->
+	<footer>
+		<div class="menu">
+			<a href="javascript:;" class="index">
+				<img src="images/index1.png" alt="">
+				<span>首页</span>
+			</a>
+			<a href="javascript:;" class="find">
+				<img src="images/search1.png" alt="">
+				<span>发现</span>
+			</a>
+			<a href="javascript:;" class="photo">
+				<div>
+					<img src="images/photo1.png" alt="">
+				</div>
+			</a>
+			<a href="javascript:;" class="my menuActive">
+				<img src="images/my2.png" alt="">
+				<span>我的</span>
+			</a>
+			<a href="javascript:;" class="exit">
+				<img src="images/exit.png" alt="">
+				<span>退出</span>
+			</a>
+		</div>
+		
+	</footer>
+</body>
+<script>
+	var myscroll;
+	var num = 0;
+	var headerH = $('body>div').height();
+	var footerH = $('footer').height();
+	var viewportH = $(window).height();
+	$('.user_hot_mainbox ').height(viewportH-footerH-headerH)
+    function loaded(){ 
+	    setTimeout(function(){  
+	        myscroll=new iScroll("wrapper");  
+	    },100 );  
+    }  
+    window.addEventListener("load",loaded,false); 
+
+
+
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        // paginationType : 'custom',
+        paginationBulletRender: function (index, className) {
+            switch(index){
+                case 0:
+                    name='照片（1）';
+                    break;
+                case 1:
+                    name="关注（3）";
+                    break;
+                case 2:
+                    name="粉丝（8）";
+                    break;
+            }
+            // myscroll.refresh();
+            return '<span class="' + className + '">' + name + '</span>'
+  		},
+        //热点菜单切换数据请求
+        onSlideChangeEnd: function(swiper){
+            var index = $('.swiper-slide-active').index();
+            num = 0;
+            category = index+1;
+            oLi = $('.swiper-slide-active li');
+            dataStr = '';
+            into();
+               
+            
+         }
+    });
+
+
+    function into(){
+        var loginsuserid = localStorage.getItem('loginname')
+        $.ajax({
+            url: 'http://localhost:8080/Proxy/FootBall/attention/json/queryall/fans.do',
+            data: {'loginsuserid': loginsuserid},
+            success:function(d){
+            	console.log(d)
+		        var data = JSON.parse(d);
+		        var html = '';
+		        var maxNum = 0;
+		        // var dataLength = data.data.userlist.length;
+		        // for(var i = 0; i < dataLength; i++){
+		        //     html = '<div class="message"><img class="headerImg" src="http://101.200.173.217:8080/FootBall'+data.data.userlist[i].avatarpath+'" /><div class="headerTxt"><h2>'+data.data.userlist[i].nickname+'</h2><p>'+data.data.userlist[i].signnature+'</p></div><a href="javascript:;" class="attention">关注</a></div>';
+		        //     $('.findWrapper div')[0].innerHTML += html;
+		        //     myscroll.refresh();
+		        // }
+	        }
+   	 	});
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>

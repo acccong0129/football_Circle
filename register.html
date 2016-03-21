@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>足球圈子 — 注册</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/comm.css" />
+    <script src="js/zepto.min.js"></script>
+</head>
+<body>
+	<header>足球圈子 — 注册</header>
+	<div class="form">
+		<input id="phone" type="text" placeholder="手机号"/>
+		<input id="pwd" type="password" placeholder="密码"/>
+		<input id="name" type="text" placeholder="昵称"/>
+		<button>提交</button>
+
+	</div>
+</body>
+<script>
+	
+	$('button').tap(function () {
+		var loginname = $('#phone').val();
+		var password = $('#pwd').val();
+		var nickname = $('#name').val();
+		var reg = /^(13[0-9]|15[0|3|6|7|8|9]|18[8|9])\d{8}$/;
+
+		if(!reg.test(loginname)){
+			alert('请输入正确的手机号')
+			return;
+		}
+		if(nickname.length>20){
+			alert('昵称不能超过20个字符哦！')
+			return;
+		}
+		$.ajax({
+			url: 'http://localhost:8080/Proxy/FootBall/user/json/reg.do',
+			data: {'loginname': loginname,'password':password,'nickname':nickname},
+			success:function(d){
+				console.log(d)
+				var data = JSON.parse(d);
+				if(data.ecode == 500){
+					alert('用户名已存在，请更换其他账户')
+				}else{
+					localStorage.setItem('loginname',loginname);
+					localStorage.setItem('password',password);
+					localStorage.setItem('nickname',nickname);
+					window.location.href = 'index_hot.html';
+				}
+			}
+		})
+		
+		
+	})
+</script>
+</html>
