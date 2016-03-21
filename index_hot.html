@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/comm.css" />
     <link rel="stylesheet" href="css/swiper.min.css" />
-    <script src="js/iscroll.js"></script>
     <script src="js/zepto.min.js"></script>
+    <script src="js/iscroll.js"></script>
     <script src="js/swiper.jquery.min.js"></script>
     <script src="js/comm.js"></script>
 </head>
@@ -107,110 +107,103 @@
 </body>
 <script>
 
-	var num = 0;//数据请求数量
+	var num = [0,0,0];//数据请求数量
     var category = 1;//数据请求类别
-    var str, //$('.indexBody')的transform属性值
-        transformH,//滚动高度
-        oheight,//$('.indexBody')的高度
-        clint_h = $('.hotWrapper').height(); //滚动窗口的可视高度
+    var clint_h = $('.hotWrapper').height(); //滚动窗口的可视高度
+    var str,
+        transformH = 0,
+        oheight;
 
     var dataLength = 0;//后台返回数据总长度
     var oLi = $('.hot_mainActive li');
-    var dataStr = '';
+    var dataStr = [];
+
     var myscroll1 = new iScroll("wrapper1",{
-        onScrollEnd:function(){
-            str = $('.indexBody').css('transform');
-            // console.log(str)
+
+        onScrollStart:function(){
+            myscroll1.refresh();
+            str = $('.indexBody').eq(0).css('transform');
+            // console.log(str);
             transformH = str.match(/\d+/g)[1];
-            oheight = $('.indexBody').height();
-            // console.log(transformH+ ' '+oheight)
-            if(transformH + clint_h >= oheight-100){
-                console.log('icroll_1');
-                num += 10;
-                into(num,category);
+            oheight = $('.indexBody').eq(0).height();
+            // console.log(oheight)
+            if((Number(transformH) + clint_h) >= (oheight-30)) {
+                // console.log('icroll_1');
+                num[0] += 10;
+                loadInfo(0,num[0],$('.swiper-slide:nth-child(1) li'));
+            
             }
         }
         
     });
     var myscroll2 = new iScroll("wrapper2",{
-        onScrollEnd:function(){
-            str = $('.indexBody').css('transform');
+        onScrollStart:function(){
+            myscroll2.refresh();
+            var str = $('.indexBody').eq(1).css('transform');
             // console.log(str)
-            transformH = str.match(/\d+/g)[1];
-            oheight = $('.indexBody').height();
-            // console.log(transformH+ ' '+oheight)
-            if(transformH + clint_h >= oheight-100){
-                console.log('icroll_2');
-                num += 10;
-                into(num,category);
+            var transformH = str.match(/\d+/g)[1];
+            var oheight = $('.indexBody').eq(1).height();
+            // console.log(transformH + ' '+ oheight)
+            if((Number(transformH) + clint_h) >= (oheight-30)){
+                // console.log('icroll_2');
+                num[1] += 10;
+                loadInfo(1,num[1],$('.swiper-slide:nth-child(2) li'));
             }
         }
     });
     var myscroll3 = new iScroll("wrapper3",{
-        onScrollEnd:function(){
-            str = $('.indexBody').css('transform');
-            transformH = str.match(/\d+/g)[1];
-            // console.log(str)
-            oheight = $('.indexBody').height();
-            // console.log(transformH+ ' '+oheight)
-            if(transformH + clint_h >= oheight-100){
-                console.log('icroll_3');
-                num += 10;
-                into(num,category);
+        onScrollStart:function(){
+            myscroll3.refresh();
+            var str = $('.indexBody').eq(2).css('transform');
+            var transformH = str.match(/\d+/g)[1];
+            var oheight = $('.indexBody').eq(2).height();
+            if((Number(transformH) + clint_h) >= (oheight-30)){
+                num[2] += 10;
+                loadInfo(2,num[2],$('.swiper-slide:nth-child(3) li'));
             }
         }
     });
 
-    //滚动到靠近底部的时候让加载信息
-    // function iscrollFn(Json){
-    //     str = Json.obj.css(Json.attr);
-    //     console.log(str)
-    //     transformH = str.match(/\d+/g)[1];
-    //     oheight = Json.obj.height();
-    //     console.log(transformH+ ' '+oheight)
-    //     if(transformH + clint_h >= oheight-100){
+    // 滚动到靠近底部的时候让加载信息
+    function iscrollFn(Json){
+        str = Json.obj.css(Json.attr);
+        transformH = str.match(/\d+/g)[1];
+        oheight = Json.obj.height();
+        if(transformH + clint_h >= oheight-100){
             
-    //         num += 10;
-    //         into(num,category);
-    //     }
-    // }
-
-
-
-
-
-    into(num,category);
-
-
-
-    function into(Num,category){
-    	if((Num > dataLength) && Num > 0){
-            // console.log(num)
-            if($('.indexBody .nomore').length){
-                console.log($('.indexBody .nomore').length)
-                $('.indexBody').append('<p class="nomore">没有更多了</p>')
-            }else{
-
-            }
-            
-            myscroll1.refresh();
-            myscroll2.refresh();
-    		myscroll3.refresh();
-    		return "empty";
-    	}
-        if(!dataStr.length){
-            $.ajax({
-                url: 'http://localhost:8080/Proxy/FootBall/tweet/json/query/hotspot.do',
-                data: {'category': category},
-                async:false,
-                success:function(d){
-                    dataStr = d;
-                    console.log('请求')
-                }
-            });
+            num += 10;
+            into(num,category);
         }
-        
-        var data = JSON.parse(dataStr);
+    }
+
+
+
+
+
+    into();
+    loadInfo(0,num[0],$('.swiper-slide:nth-child(1) li'));
+    loadInfo(1,num[1],$('.swiper-slide:nth-child(2) li'));
+    loadInfo(2,num[2],$('.swiper-slide:nth-child(3) li'));
+
+
+
+
+    function into(){
+        for(var i = 0; i < 3; i++){
+            Ajax(i+1);
+        }   
+    }
+
+    function loadInfo(index,Num,obj){
+        if(Num > dataLength && Num > 0){
+            console.log($($('.indexBody')[index]).find('.nomore'))
+            if(!$($('.indexBody')[index]).find('.nomore').length){
+                $('.indexBody').eq(index).append('<p class="nomore">没有更多了</p>');
+            }else{
+                return;
+            }
+        }
+        var data = JSON.parse(dataStr[index]);
         var html = '';
         var maxNum = Num + 10;
         dataLength = data.data.tweetlist.length;
@@ -220,23 +213,36 @@
         }
         for(var i = Num; i < maxNum; i++){
             html = '<div><img src="http://101.200.173.217:8080/FootBall'+data.data.tweetlist[i].defaultFilePath + data.data.tweetlist[i].defaultFileName +'" alt=""><p>'+ data.data.tweetlist[i].content + '</p></div>';
-            oLi[getCpr()].innerHTML += html;
+            obj[getCpr(obj)].innerHTML += html;
             myscroll1.refresh();
             myscroll2.refresh();
             myscroll3.refresh();
             // console.log(data.data.tweetlist[i])
         }
-        
-       
+         
     }
 
-    function getCpr(){
+
+    function Ajax(category){
+        $.ajax({
+            url: 'http://localhost:8080/Proxy/FootBall/tweet/json/query/hotspot.do',
+            data: {'category': category},
+            async:false,
+            success:function(d){
+                dataStr.push(d);
+                console.log('请求')
+            }
+        });
+    }
+
+
+    function getCpr(obj){
         var index = 0;
-        var iH = oLi[index].offsetHeight;
-        for(var j = 1; j < oLi.length ; j++){
-            if(oLi[j].offsetHeight < iH){
+        var iH = obj[index].offsetHeight;
+        for(var j = 1; j < obj.length ; j++){
+            if(obj[j].offsetHeight < iH){
                 index = j;
-                iH = oLi[j].offsetHeight;
+                iH = obj[j].offsetHeight;
             }
         }
         // console.log(index)
@@ -267,13 +273,12 @@
   		},
         //热点菜单切换数据请求
         onSlideChangeEnd: function(swiper){
-            var index = $('.swiper-slide-active').index();
-            num = 0;
-            category = index+1;
-            oLi = $('.swiper-slide-active li');
-            dataStr = '';
-            console.log('swiper'+index_1)
-            into(num,category);
+            // var index = $('.swiper-slide-active').index();
+            // category = index+1;
+            // oLi = $('.swiper-slide-active li');
+            // dataStr = '';
+            // console.log('swiper'+index+1)
+            // loadInfo(index+1,num[index],$('.swiper-slide:nth-child('+(index+1)+') li'));
                
             
          }
